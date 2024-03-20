@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bukarinevg/app-weather/issues"
   },
-  "homepage": "https://github.com/bukarinevg/app-weather#readme"
+  "homepage": "https://github.com/bukarinevg/app-weather#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
 }
