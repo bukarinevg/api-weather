@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  if location
+    p Your IP address is located in #{location.city}, #{location.region}, #{location.country}
+  else
+    p Could not determine your location.
+
