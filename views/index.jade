@@ -3,8 +3,9 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  p ip = #{ip}
   if location
     p Your IP address is located in #{location.city}, #{location.region}, #{location.country}
   else
-    p Could not determine your location.
+    p Could not determine your location set region.
 
