@@ -1,7 +1,7 @@
 var axios = require('axios');
 //move it to env later
-const API_URL = 'https://geocode.maps.co/search';
-const API_KEY = '65fba62bbdc8c750070323mryefda71';
+const API_URL = process.env.GEOCODING_API_URL;
+const API_KEY = process.env.GEOCODING_API_KEY;
 
 const GeographCoordinatesService = {
     apiResponse: async function(location) {
@@ -20,7 +20,7 @@ const GeographCoordinatesService = {
      
         } catch (error) {
             //{status:500, message: 'Response Error: ' + error.message || 'Error: Something went wrong!'}
-            throw   {status:500, message: 'api error' };
+            throw   {status:500, message: 'coordinates api error' };
             // console.error(error);
         }
     },
@@ -30,7 +30,7 @@ const GeographCoordinatesService = {
             const data = await this.apiResponse(location);
 
             if (!data || !data.lat || !data.lon) {
-                throw  {status:404, message:'error empty data'};
+                throw  {status:404, message:'error coordinates empty data'};
             }
             
             return {
