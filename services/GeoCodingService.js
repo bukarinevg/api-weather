@@ -3,7 +3,7 @@ var axios = require('axios');
 const API_URL = process.env.GEOCODING_API_URL;
 const API_KEY = process.env.GEOCODING_API_KEY;
 
-const GeographCoordinatesService = {
+const GeoCodingService = {
     apiResponse: async function(location) {
         try {
             //connect to the API URL
@@ -47,4 +47,4 @@ const GeographCoordinatesService = {
 };
 
 
-module.exports = GeographCoordinatesService;
+module.exports = GeoCodingService;

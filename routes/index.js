@@ -1,6 +1,6 @@
 var express = require('express');
 
-var GeographCoordinatesService = require('../services/GeographCoordinatesService');
+var GeoCodingService = require('../services/GeoCodingService');
 var WeatherService = require('../services/WeatherService');
 var geoip = require('geoip-lite');
 var router = express.Router();
@@ -9,7 +9,7 @@ var router = express.Router();
 router.get('/:location', async function(req, res, next) {
   try {
     const location = req.params.location || 'London';
-    const coordinates = await GeographCoordinatesService.getCoordinates(location);
+    const coordinates = await GeoCodingService.getCoordinates(location);
     const weather = await WeatherService.getWeather(coordinates.lat, coordinates.lon);
     res.json({data:weather});
   }
