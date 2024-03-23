@@ -1,8 +1,6 @@
 var axios = require('axios');
 
-//move it to env later
 const API_URL = process.env.WEATHER_API_URL;
-// const API_KEY = '65fba62bbdc8c750070323mryefda71';
 
 const weatherService = {
     apiResponse: async function(lat, lon) {
@@ -28,13 +26,15 @@ const weatherService = {
         }
     },
 
-    getWeather: async function(lat, lon) {
+    getData: async function(lat, lon) {
         try {
-            const data = await this.apiResponse(lat, lon);
+            let data = await this.apiResponse(lat, lon);
 
             if (!data || !data.current_weather_units || !data.current_weather) {
                 throw { status: 404, message: 'error weather empty data' };
             }
+            
+            data = this.prepareData(data);
 
             return data;
         } catch (error) {
@@ -42,6 +42,31 @@ const weatherService = {
             throw ({ status: error.status || 500, message: ` ${error.message}  ${error.status}` });
 
         }
+    },
+
+    prepareData: function(data) {
+        const current_weather = data.current_weather;
+        const daily = data.daily;
+
+        const current_sunrise = data.daily.sunrise[0];
+        const current_sunset = data.daily.sunset[0];
+
+        return {
+            current_weather: {
+                time: current_weather.time,
+                temperature: current_weather.temperature,
+                weather_code: current_weather.weathercode,
+                sunrise: current_sunrise,
+                sunset: current_sunset
+            },
+            daily: {
+                sunrise: daily.sunrise,
+                sunset: daily.sunset,
+                temperature_max: daily.temperature_2m_max,
+                temperature_min: daily.temperature_2m_min,
+                weather_code: daily.weather_code
+            }
+        };
     }
 
 };

@@ -9,8 +9,8 @@ var router = express.Router();
 router.get('/:location', async function(req, res, next) {
   try {
     const location = req.params.location || 'London';
-    const coordinates = await GeoCodingService.getCoordinates(location);
-    const weather = await WeatherService.getWeather(coordinates.lat, coordinates.lon);
+    const coordinates = await GeoCodingService.getData(location);
+    const weather = await WeatherService.getData(coordinates.lat, coordinates.lon);
     res.json({data:weather});
   }
   catch (error) {
