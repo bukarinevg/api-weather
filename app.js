@@ -1,10 +1,30 @@
+//dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
 require('dotenv').config();
+const mongoose = require('mongoose');
+var favicon = require('serve-favicon');
+var cookieParser = require('cookie-parser');
+
 var createError = require('http-errors');
 var express = require('express');
-var favicon = require('serve-favicon');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+const dbURI = process.env.MONGODB_URI;
+const port = process.env.MONGODB_PORT || 5000;
+mongoose.connect(dbURI, {
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
+  // useCreateIndex: true
+})
+  .then((result) => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch(err => {
+    console.error("Error connecting to MongoDB", err);
+  });
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,8 +40,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//static files are served from the public directory
+//midleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+
+//set up the routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
