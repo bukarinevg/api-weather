@@ -1,4 +1,4 @@
-var axios = require('axios');
+const axios = require('axios');
 
 const API_URL = process.env.WEATHER_API_URL;
 
