@@ -1,4 +1,4 @@
-var axios = require('axios');
+const axios = require('axios');
 const { prepareData } = require('./WeatherService');
 
 const API_URL = process.env.GEOCODING_API_URL;
@@ -16,7 +16,6 @@ const GeoCodingService = {
             });
             //return the data
             const data = response.data; 
-
             return data[0];
      
         } catch (error) {
@@ -45,12 +44,10 @@ const GeoCodingService = {
     },
 
     prepareData: function(data) {
-        const lat = data.lat;
-        const lon = data.lon;
-
         return {
-            lat: lat,
-            lon: lon
+            lat:  data.lat,
+            lon:  data.lon,
+            display_name: data.display_name,
         };
     }
     

@@ -1,22 +1,10 @@
-var express = require('express');
+const express = require('express');
+const router = express.Router();
+const weatherController = require('../controllers/weatherController');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
-var GeoCodingService = require('../services/GeoCodingService');
-var WeatherService = require('../services/WeatherService');
-var geoip = require('geoip-lite');
-var router = express.Router();
-
+// router.use(authenticateToken);
 /* GET home page. */
-router.get('/:location', async function(req, res, next) {
-  try {
-    const location = req.params.location || 'London';
-    const coordinates = await GeoCodingService.getData(location);
-    const weather = await WeatherService.getData(coordinates.lat, coordinates.lon);
-    res.json({data:weather});
-  }
-  catch (error) {
-    const status = error.status || 500; // Default to 500 if error.status is not defined
-    res.status(status).json({ error: error.message })
-  }
-}); 
+router.get('/:location',authenticateToken,  weatherController.get_weather); 
 
 module.exports = router;
