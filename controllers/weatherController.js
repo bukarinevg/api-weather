@@ -7,7 +7,7 @@ module.exports.get_weather = async(req, res) => {
         const location = req.params.location || 'Tel Aviv';
         const coordinates = await GeoCodingService.getData(location);
         const weather = await WeatherService.getData(coordinates.lat, coordinates.lon);
-        res.json({location: coordinates.display_name, data:weather});
+        res.json({location: coordinates.display_name, data:weather, cloud: true});
       }
       catch (error) {
         const status = error.status || 500; // Default to 500 if error.status is not defined
