@@ -4,7 +4,8 @@
   "description": "This application shows u current weather ",
   "private": true,
   "scripts": {
-    "start": "nodemon  ./bin/www"
+    "start": "nodemon  ./bin/www",
+    "deploy": "cd .. && mix assets.deploy && rm -f _build/esbuild"
   },
   "dependencies": {
     "axios": "^1.6.8",
