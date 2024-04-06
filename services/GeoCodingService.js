@@ -11,7 +11,7 @@ const GeoCodingService = {
             const response = await axios.get(API_URL, {
                 params: {
                 q: location,
-                key: API_KEY
+                api_key: API_KEY
                 }
             });
             //return the data

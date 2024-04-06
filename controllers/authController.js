@@ -37,7 +37,7 @@ module.exports.login = async(req, res) => {
       }
 }
 
-mmodule.exports.refreshToken = async(req, res) => {
+module.exports.refreshToken = async(req, res) => {
     try {
         const { refreshToken } = req.body;
         if (!refreshToken) {
