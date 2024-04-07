@@ -4,7 +4,14 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 
 module.exports.get_weather = async(req, res) => {
     try {
-        const location = req.params.location || 'Tel Aviv';
+      let location = req.params.location;
+  
+      if (!location) {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        // Use a service like ipapi to get the location from the IP address
+        location = await getLocationFromIP(ip);
+      }
+        console.log(location);
         const coordinates = await GeoCodingService.getData(location);
         const weather = await WeatherService.getData(coordinates.lat, coordinates.lon);
         res.json({location: coordinates.display_name, data:weather, cloud: true});
