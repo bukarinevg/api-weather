@@ -10,6 +10,7 @@ module.exports.get_weather = async(req, res) => {
         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         // Use a service like ipapi to get the location from the IP address
         location = await getLocationFromIP(ip);
+        console.log(ip);
       }
         console.log(location);
         const coordinates = await GeoCodingService.getData(location);
