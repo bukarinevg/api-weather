@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwtToken = process.env.ACCESS_TOKEN;
+const jwtRefreshToken = process.env.REFRESH_TOKEN;
 
 module.exports.generateAccessToken = (user) => {
     console.log(user);
@@ -7,6 +8,21 @@ module.exports.generateAccessToken = (user) => {
 		expiresIn: "7d"
 	});
 } 
+
+module.exports.generateRefreshToken = (user) => {
+    return jwt.sign({ username: user }, jwtRefreshToken);
+
+}
+
+module.exports.verifyRefreshToken = (refreshToken, user) => {
+    if (!refreshToken) return false;
+    return jwt.verify(refreshToken, jwtRefreshToken, (err, user) => {
+        if (err) return false;
+        const accessToken = module.exports.generateAccessToken({ username: user.username });
+        return accessToken;
+    });
+   
+}
 
 module.exports.authenticateToken = async(req, res, next) => {
     const authHeader = req.headers['authorization'];

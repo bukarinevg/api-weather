@@ -9,7 +9,11 @@ module.exports.signup = async(req, res) => {
         const user = await User.create({ username, password });
         console.log(user);
         const token = authMiddleware.generateAccessToken(username);
-        res.status(201).json(token);
+        const refreshToken = authMiddleware.generateRefreshToken(username);
+        res.status(201).json({
+            accessToken: token,
+            refreshToken: refreshToken
+        });
     } catch (error) {
         res.status(400).json({ message:error.message });
     }
@@ -25,35 +29,24 @@ module.exports.login = async(req, res) => {
           return res.status(400).send({ error: 'Invalid login credentials' });
         }
         const token = authMiddleware.generateAccessToken(username);
-        const refreshToken = authMiddleware.generateRefreshToken(username);
-        res.status(201).json(
-          {
-            accessToken: token,
-            refreshToken: refreshToken
-          }
-        );
+        res.status(201).json({
+          accessToken: token
+        });
       } catch (error) {
         res.send(error);
       }
 }
 
 module.exports.refreshToken = async(req, res) => {
-    try {
-        const { refreshToken } = req.body;
-        if (!refreshToken) {
-          return res.status(401).send({ error: 'Refresh token is required' });
-        }
-        if (!refreshTokens.includes(refreshToken)) {
-          return res.status(403).send({ error: 'Refresh token is not valid' });
-        }
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-          if (err) {
-            return res.status(403).send({ error: 'Refresh token is not valid' });
-          }
-          const accessToken = generateAccessToken({ username: user.username });
-          res.json({ accessToken });
-        });
-      } catch (error) {
-        res.send(error);
-      }
+    const refreshToken = req.body.token;
+    const accessToken = authMiddleware.verifyRefreshToken(refreshToken);
+    console.log(accessToken);
+    if(!accessToken) return res.sendStatus(403);
+    res.json({ accessToken: accessToken });
+    // if (!refreshToken.includes(refreshToken)) return res.sendStatus(403);
+    // jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, user) => {
+    //     if (err) return res.sendStatus(403);
+    //     const accessToken = authMiddleware.generateAccessToken({ username: user.username });
+    //     res.json({ accessToken: accessToken });
+    // });
 }
