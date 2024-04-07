@@ -7,6 +7,8 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
+const cors = require('cors');
+
 
 const dbURI = process.env.MONGODB_URI;
 const port = process.env.MONGODB_PORT || 5000;
@@ -27,10 +29,8 @@ mongoose.connect(dbURI, {
   });
 
 
-
-
 const app = express();
-
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
