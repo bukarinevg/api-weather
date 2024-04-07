@@ -18,6 +18,7 @@ module.exports.get_weather = async(req, res) => {
         res.json({location: coordinates.display_name, data:weather, cloud: true});
       }
       catch (error) {
+        console.log(error);
         const status = error.status || 500; 
         res.status(status).json({ error: error.message })
       }
