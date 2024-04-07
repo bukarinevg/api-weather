@@ -6,6 +6,7 @@ const weatherService = {
     apiResponse: async function(lat, lon) {
         try {
             //connect to the API URL
+            await new Promise(resolve => setTimeout(resolve, 1000));
             const response = await axios.get(API_URL, {
                 params: {
                     latitude: lat,
