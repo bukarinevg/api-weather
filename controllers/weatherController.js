@@ -7,8 +7,8 @@ module.exports.get_weather = async(req, res) => {
       let location = req.params.location;
   
       if (!location) {
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        // Use a service like ipapi to get the location from the IP address
+        let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        ip = ip.split(',')[0];
         location = await getLocationFromIP(ip);
         console.log(ip);
       }
@@ -18,7 +18,7 @@ module.exports.get_weather = async(req, res) => {
         res.json({location: coordinates.display_name, data:weather, cloud: true});
       }
       catch (error) {
-        const status = error.status || 500; // Default to 500 if error.status is not defined
+        const status = error.status || 500; 
         res.status(status).json({ error: error.message })
       }
 }
