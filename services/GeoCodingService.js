@@ -20,7 +20,7 @@ const GeoCodingService = {
      
         } catch (error) {
             //{status:500, message: 'Response Error: ' + error.message || 'Error: Something went wrong!'}
-            throw   {status:500, message: 'coordinates api error' };
+            throw {status:500, message: 'coordinates api error: ' + error.message};
             // console.error(error);
         }
     },
