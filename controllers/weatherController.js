@@ -8,6 +8,7 @@ module.exports.get_weather = async(req, res) => {
   
       if (!location) {
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log(ip);
         ip = ip.split(',')[0];
         location = await getLocationFromIP(ip);
         console.log(ip);
