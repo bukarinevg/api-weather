@@ -52,6 +52,7 @@ const TimeService = {
             month: data.month,
             year: data.year,
             day_of_week: data.dayOfWeek,
+            timeZone: data.timeZone
         };
     }
     
