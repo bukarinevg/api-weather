@@ -46,6 +46,9 @@ const TimeService = {
         if (data.minute < 10) {
             data.minute = '0' + data.minute;
         }
+        if (data.hour < 10) {
+            data.hour = '0' + data.hour;
+        }
         return  {
             time: `${data.hour}:${data.minute}`,
             day: data.day,

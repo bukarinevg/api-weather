@@ -16,6 +16,7 @@ module.exports.get_weather = async(req, res) => {
       }
         console.log(location);
         const coordinates = await GeoCodingService.getData(location);
+        console.log(coordinates.lat, coordinates.lon);
         const weather = await WeatherService.getData(coordinates.lat, coordinates.lon);
         const time = await TimeService.getData(coordinates.lat, coordinates.lon);
         res.json({location: coordinates.display_name, data:weather,time:time,  cloud: true});
