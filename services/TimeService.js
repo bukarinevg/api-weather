@@ -43,6 +43,9 @@ const TimeService = {
     },
 
     prepareData: function(data) {
+        if (data.minute < 10) {
+            data.minute = '0' + data.minute;
+        }
         return  {
             time: `${data.hour}:${data.minute}`,
             day: data.day,
