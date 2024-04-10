@@ -59,8 +59,8 @@ const weatherService = {
                 weather_code: current_weather.weathercode,
                 sunrise: current_sunrise,
                 sunset: current_sunset,
-                wind_speed: current_weather.wind_speed,
-                wind_direction: current_weather.wind_direction,
+                wind_speed: current_weather.windspeed,
+                wind_direction: current_weather.winddirection,
             },
             daily: {
                 sunrise: daily.sunrise,
