@@ -58,7 +58,9 @@ const weatherService = {
                 temperature: current_weather.temperature,
                 weather_code: current_weather.weathercode,
                 sunrise: current_sunrise,
-                sunset: current_sunset
+                sunset: current_sunset,
+                wind_speed: current_weather.wind_speed,
+                wind_direction: current_weather.wind_direction,
             },
             daily: {
                 sunrise: daily.sunrise,
@@ -66,8 +68,6 @@ const weatherService = {
                 temperature_max: daily.temperature_2m_max,
                 temperature_min: daily.temperature_2m_min,
                 weather_code: daily.weather_code,
-                windspeed: daily.windspeed,
-                winddirection: daily.winddirection,
             }
         };
     }
