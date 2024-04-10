@@ -65,7 +65,8 @@ const weatherService = {
                 sunset: daily.sunset,
                 temperature_max: daily.temperature_2m_max,
                 temperature_min: daily.temperature_2m_min,
-                weather_code: daily.weather_code
+                weather_code: daily.weather_code,
+                windspeed: daily.windspeed
             }
         };
     }
