@@ -52,11 +52,8 @@ const weatherService = {
         const daily = data.daily;
         const current_sunrise = data.daily.sunrise[0];
         const current_sunset = data.daily.sunset[0];
-
-        // console.log(data.hourly);
-
-
-
+        const current_precipitation = data.daily.precipitation_sum[0];
+        
         return {
             current_weather: {
                 time: current_weather.time,
@@ -66,6 +63,7 @@ const weatherService = {
                 sunset: current_sunset,
                 wind_speed: current_weather.windspeed,
                 wind_direction: current_weather.winddirection,
+                precipitation: current_precipitation,
             },
             daily: {
                 sunrise: daily.sunrise,
@@ -73,6 +71,7 @@ const weatherService = {
                 temperature_max: daily.temperature_2m_max,
                 temperature_min: daily.temperature_2m_min,
                 weather_code: daily.weather_code,
+                precipitation_sum: daily.precipitation_sum,
             }
         };
     }
