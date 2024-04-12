@@ -3,7 +3,7 @@ const axios = require('axios');
 const API_URL = process.env.WEATHER_API_URL;
 
 const weatherService = {
-    apiResponse: async function(lat, lon) {
+    apiResponse: async function(lat, lon, timeZone) {
         try {
             //connect to the API URL
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -12,7 +12,9 @@ const weatherService = {
                     latitude: lat,
                     longitude: lon,
                     current_weather: true,
-                    daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min'
+                    daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum',
+                    hourly:'temperature_2m,weathercode,windspeed,winddirection,precipitation_probability',
+                    timezone: timeZone,
                 }
             });
             //return the data
@@ -27,9 +29,9 @@ const weatherService = {
         }
     },
 
-    getData: async function(lat, lon) {
+    getData: async function(lat, lon, timeZone) {
         try {
-            let data = await this.apiResponse(lat, lon);
+            let data = await this.apiResponse(lat, lon, timeZone);
 
             if (!data || !data.current_weather_units || !data.current_weather) {
                 throw { status: 404, message: 'error weather empty data' };
@@ -48,9 +50,12 @@ const weatherService = {
     prepareData: function(data) {
         const current_weather = data.current_weather;
         const daily = data.daily;
-
         const current_sunrise = data.daily.sunrise[0];
         const current_sunset = data.daily.sunset[0];
+
+        // console.log(data.hourly);
+
+
 
         return {
             current_weather: {
