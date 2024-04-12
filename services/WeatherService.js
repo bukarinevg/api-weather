@@ -50,10 +50,30 @@ const weatherService = {
     prepareData: function(data) {
         const current_weather = data.current_weather;
         const daily = data.daily;
+        const hourly = data.hourly;
+
         const current_sunrise = data.daily.sunrise[0];
         const current_sunset = data.daily.sunset[0];
         const current_precipitation = data.daily.precipitation_sum[0];
+
+        hourly['date'] = hourly['time'].map(time => time.split('T')[0]);
+
+        daily['hourly'] = {};
+        let ind = 0; 
+        while ( Object.keys(daily['hourly']).length < 7) {
+            daily.hourly[ hourly['date'][ind]] =  
+            {
+                date: hourly['date'][ind],
+                time: hourly['time'].slice(ind, ind + 24),
+                temperature: hourly['temperature_2m'].slice(ind, ind + 24),
+                weather_code: hourly['weathercode'].slice(ind, ind + 24),
+                precipitation_probability: hourly['precipitation_probability'].slice(ind, ind + 24),
+            };
+            ind += 24;
+        }
+       
         
+
         return {
             current_weather: {
                 time: current_weather.time,
@@ -72,7 +92,10 @@ const weatherService = {
                 temperature_min: daily.temperature_2m_min,
                 weather_code: daily.weather_code,
                 precipitation_sum: daily.precipitation_sum,
-            }
+                hourly: daily.hourly,
+            },
+            
+           
         };
     }
 
