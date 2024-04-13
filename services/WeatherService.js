@@ -58,17 +58,17 @@ const weatherService = {
 
         hourly['date'] = hourly['time'].map(time => time.split('T')[0]);
 
-        daily['hourly'] = {};
+        daily.hourly = [];
         let ind = 0; 
-        while ( Object.keys(daily['hourly']).length < 7) {
-            daily.hourly[ hourly['date'][ind]] =  
+        while ( daily['hourly'].length < 7) {
+            daily.hourly.push(
             {
                 date: hourly['date'][ind],
                 time: hourly['time'].slice(ind, ind + 24),
                 temperature: hourly['temperature_2m'].slice(ind, ind + 24),
                 weather_code: hourly['weathercode'].slice(ind, ind + 24),
                 precipitation_probability: hourly['precipitation_probability'].slice(ind, ind + 24),
-            };
+            });
             ind += 24;
         }
        
