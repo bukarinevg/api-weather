@@ -2,14 +2,14 @@ const GeoCodingService = require('../services/GeoCodingService');
 const WeatherService = require('../services/WeatherService');
 const TimeService = require('../services/TimeService');
 const { getLocationFromIP } = require('../services/LocationService');
+const { redisClient } = require('../dbConnections/redisConnection');
 
 module.exports.get_weather = async(req, res) => {
     try {
       let location = req.params.location;
-  
+      await redisClient.set('location', `location`,'EX', 3600);
       if (!location) {
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        console.log(ip);
         ip = ip.split(',')[0];
         location = await getLocationFromIP(ip);
         console.log(ip);
@@ -19,7 +19,6 @@ module.exports.get_weather = async(req, res) => {
         console.log(coordinates.lat, coordinates.lon);
         const time = await TimeService.getData(coordinates.lat, coordinates.lon);
         const weather = await WeatherService.getData(coordinates.lat, coordinates.lon, time.timeZone);
-
         res.json({location: coordinates.display_name, data:weather,time:time,  cloud: true});
       }
       catch (error) {
