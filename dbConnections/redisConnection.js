@@ -1,20 +1,18 @@
 const { createClient } = require('redis');
 const redisConfig = require('../config/redisConfig');
 
-const client = createClient(redisConfig);
+const redisClient = createClient(redisConfig);
 
 const connectRedis = async () => {
-  if (!client.connected) {
-    await client.connect();
+  if (!redisClient.connected) {
+    await redisClient.connect();
+    console.log('Connected to Redis');
+    console.log(redisClient);
   }
+  console.log('before return')
+  return redisClient;
 };
 
-client.on('error', function (error) {
-  console.error('Redis error:', error);
-});
 
-client.on('connect', function() {
-  console.log('Connected to Redis');
-});
 
-module.exports = { client, connectRedis };
+module.exports = { redisClient, connectRedis };

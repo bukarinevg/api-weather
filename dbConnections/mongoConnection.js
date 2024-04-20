@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { uri, port } = require('../config/mongoConfig'); 
 const app = require('../app');
 
-const connectMongoDB = () => {
+const connectMongoDB = async() => {
   mongoose.connect(uri)
     .then(() => {
         console.log("Connected to MongoDB");

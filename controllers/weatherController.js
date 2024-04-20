@@ -6,7 +6,10 @@ const { getLocationFromIP } = require('../services/LocationService');
 module.exports.get_weather = async(req, res) => {
     try {
       let location = req.params.location;
-  
+      // console.log(redisClient);
+
+      
+      // await redisClient.set('location', location,'EX', 3600);
       if (!location) {
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         console.log(ip);

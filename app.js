@@ -7,7 +7,7 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
-const { createClient } = require('redis');
+const { redisClient, createClient } = require('redis');
 
 const connectMongoDB = require('./dbConnections/mongoConnection');
 const { connectRedis } = require('./dbConnections/redisConnection');
@@ -62,11 +62,12 @@ const { connectRedis } = require('./dbConnections/redisConnection');
 
 const app = express();
 
-// Initialize database connections 
 connectMongoDB();
 connectRedis();
 
+// Initialize database connections 
 
+console.log('initialization')
 
 app.use(cors());
 // view engine setup

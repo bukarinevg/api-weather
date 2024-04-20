@@ -3,7 +3,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 const bcrypt = require('bcrypt');
 
 module.exports.signup = async(req, res) => {
-    
     const { username, password } = req.body;
     try {
         const user = await User.create({ username, password });
