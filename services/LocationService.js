@@ -1,21 +1,22 @@
 const axios = require('axios');
+const {redisClient} = require('../dbConnections/redisConnection');
+
+function valid (ip) {
+    return ip.split('.').length === 4;
+}
 
 module.exports.getLocationFromIP = async (ip) => {
-  return new Promise((resolve, reject) => {
-    // Try to get the result from the cache
-    client.get(ip, async (err, result) => {
-      if (err) {
-        reject(err);
-      } else if (result) {
-        console.log('Cache hit');
-        resolve(result);
-      } else {
-        // Otherwise, get the result and store it in the cache
-        const response = await axios.get(`https://ipapi.co/${ip}/json/`);
-        const location = response.data.city;
-        client.set(ip, location, 'EX', 3600); // Cache for 1 hour
-        resolve(location);
-      }
-    });
-  });
+    try {
+        const location = await redisClient.get(ip);
+        if(location) return location;
+        if(!valid(ip)) throw new Error('Invalid ip address');
+        const response = await axios.get('http://ip-api.com/json/' + ip);
+        const data = response.data;
+        if(!data.city) throw new Error('City not found using this ip address');
+        await redisClient.set(ip, data.city, 'EX', 3600);
+        return data.city;
+    } catch (error) {
+        location = 'New York';
+        return location;
+    }
 }
