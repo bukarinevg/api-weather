@@ -2,34 +2,72 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
+const { createClient } = require('redis');
+
+const connectMongoDB = require('./dbConnections/mongoConnection');
+const { connectRedis } = require('./dbConnections/redisConnection');
 
 
-const dbURI = process.env.MONGODB_URI;
-const port = process.env.MONGODB_PORT || 5000;
-mongoose.connect(dbURI, {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-  // useCreateIndex: true
-})
-  .then((result) => {
-    app.listen(port, () => {
-      const dbName = dbURI.split('/').pop();
-      // console.log(`Database name: ${dbName}`);
-      // console.log(`Server is running on port ${port}`);
-    });
-  })
-  .catch(err => {
-    console.error("Error connecting to MongoDB", err);
-  });
+
+// const dbURI = process.env.MONGODB_URI;
+// const port = process.env.MONGODB_PORT || 5000;
+// mongoose.connect(dbURI, {
+//   // useNewUrlParser: true,
+//   // useUnifiedTopology: true,
+//   // useCreateIndex: true
+// })
+//   .then((result) => {
+//     app.listen(port, () => {
+//       const dbName = dbURI.split('/').pop();
+//       // console.log(`Database name: ${dbName}`);
+//       // console.log(`Server is running on port ${port}`);
+//     });
+//   })
+//   .catch(err => {
+//     console.error("Error connecting to MongoDB", err);
+//   });
+
+
+// const client = createClient({
+//     password: process.env.REDIS_PASS,
+//     socket: {
+//         host: process.env.REDIS_HOST ,
+//         port: process.env.REDIS_PORT
+//     }
+// });
+
+
+// async function connectRedis(client) {
+//   if (!client.connected) {
+//     await client.connect();
+//   }
+
+// }
+
+// connectRedis(client);
+
+// client.on('error', function (error) {
+//   console.error('Redis error:', error);
+// });
+
+// client.on('connect', function() {
+//   console.log('Connected to Redis');
+// });
 
 
 const app = express();
+
+// Initialize database connections 
+connectMongoDB();
+connectRedis();
+
+
+
 app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
