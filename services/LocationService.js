@@ -8,18 +8,17 @@ function valid (ip) {
 module.exports.getLocationFromIP = async (ip) => {
     try {
         if(!valid(ip)) throw new Error('Invalid ip address');
-        const location = await redisClient.get(ip);
-        if(location) {
-            console.log('chached value')
-            return location;
+        const cachedLocation = await redisClient.get(`ip:${ip}`);
+        if(cachedLocation) {
+            console.log('chached ip value')
+            return cachedLocation;
         }
         const response = await axios.get('http://ip-api.com/json/' + ip);
         const data = response.data;
         if(!data.city) throw new Error('City not found using this ip address');
-        await redisClient.set(ip, data.city, 'EX', 3600);
+        await redisClient.set(`ip:${ip}`, data.city, 'EX', 3600);
         return data.city;
     } catch (error) {
-        location = 'New York';
-        return location;
+        return 'New York';
     }
 }
