@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { prepareData } = require('./WeatherService');
+const {redisClient} = require('../dbConnections/redisConnection');
 
 const API_URL = process.env.GEOCODING_API_URL;
 const API_KEY = process.env.GEOCODING_API_KEY;
@@ -27,6 +28,13 @@ const GeoCodingService = {
 
     getData: async function(location) {
         try { 
+            //check if the location is in the cache
+            const cachedLocation = await redisClient.get(`geocoding:${location}`);
+            if(cachedLocation) {
+                console.log('cached geocoding value');
+                return JSON.parse(cachedLocation);
+            }
+
             let data = await this.apiResponse(location);
 
             if (!data || !data.lat || !data.lon) {
@@ -34,6 +42,8 @@ const GeoCodingService = {
             }
             
             data = this.prepareData(data);
+            //store the data in the cache
+            await redisClient.set(`geocoding:${location}`, JSON.stringify(data), 'EX', 3600);
 
             return data;
         } catch (error) {
