@@ -7,8 +7,8 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
-const connectMongoDB = require('./dbConnections/mongoConnection');
-const { connectRedis } = require('./dbConnections/redisConnection');
+const connectMongoDB = require('./src/dbConnections/mongoConnection');
+const { connectRedis } = require('./src/dbConnections/redisConnection');
 
 function databaseConnection() {
   connectMongoDB();
@@ -22,9 +22,9 @@ function serverStart() {
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
 
-  const indexRouter = require('./routes/index');
-  const authRouter = require('./routes/auth');
-  // const usersRouter = require('./routes/users');
+  const indexRouter = require('./src/routes/index');
+  const authRouter = require('./src/routes/auth');
+  // const usersRouter = require('./src/routes/users');
 
   //set up the routes
   app.use('/', indexRouter);
