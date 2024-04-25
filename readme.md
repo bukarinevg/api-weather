@@ -1,6 +1,8 @@
 # Weather Forecast API
 
-This project is a weather forecast API built with Express.js, following the MVC (Model-View-Controller) pattern. It provides the current weather and a 5-day forecast for any location. The API uses JWT for authorization and MongoDB for user management.
+This project is a weather forecast API built with Express.js, following the MVC (Model-View-Controller) pattern. 
+It provides the current weather and a 5-day forecast for any location, hourly and daily. 
+The API uses JWT for authorization and MongoDB for user management.
 
 ## Features
 
@@ -8,6 +10,7 @@ This project is a weather forecast API built with Express.js, following the MVC 
 - Get a 5-day weather forecast for any location
 - User registration and login using JWT authorization
 - User data is stored in MongoDB
+- Utilized Redis for caching GeoCoding API responses and Location data
 
 ## APIs Used
 
