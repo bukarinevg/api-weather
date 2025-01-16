@@ -2,7 +2,6 @@ const GeoCodingService = require('../services/GeoCodingService');
 const WeatherService = require('../services/WeatherService');
 const TimeService = require('../services/TimeService');
 const { getLocationFromIP } = require('../services/LocationService');
-const { redisClient } = require('../dbConnections/redisConnection');
 
 module.exports.get_weather = async(req, res) => {
     try {

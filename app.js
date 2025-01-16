@@ -8,11 +8,11 @@ const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
 const connectMongoDB = require('./src/dbConnections/mongoConnection');
-const { connectRedis } = require('./src/dbConnections/redisConnection');
+// const { connectRedis } = require('./src/dbConnections/redisConnection');
 
 function databaseConnection() {
   connectMongoDB();
-  connectRedis();
+  // connectRedis();
 }
 
 function serverStart() {
