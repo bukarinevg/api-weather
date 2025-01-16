@@ -10,10 +10,10 @@ module.exports.getLocationFromIP = async (ip) => {
         if(!valid(ip)) throw new Error('Invalid ip address');
         const cacheKey = `ip:${ip}`;
         // const cachedLocation = await redisClient.get(cacheKey);
-        if(cachedLocation) {
-            console.log('chached ip value')
-            return cachedLocation;
-        }
+        // if(cachedLocation) {
+        //     console.log('chached ip value')
+        //     return cachedLocation;
+        // }
         const response = await axios.get('http://ip-api.com/json/' + ip);
         const {city} = response.data;
         if(!city) throw new Error('City not found using this ip address');

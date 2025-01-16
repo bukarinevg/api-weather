@@ -30,10 +30,10 @@ const GeoCodingService = {
         try { 
             //check if the location is in the cache
             // const cachedLocation = await redisClient.get(`geocoding:${location}`);
-            if(cachedLocation) {
-                console.log('cached geocoding value');
-                return JSON.parse(cachedLocation);
-            }
+            // if(cachedLocation) {
+            //     console.log('cached geocoding value');
+            //     return JSON.parse(cachedLocation);
+            // }
 
             let data = await this.apiResponse(location);
 
